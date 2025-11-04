@@ -70,7 +70,6 @@
     }
     .btn:active{transform:translateY(1px)}
 
-    /* area that shows text and the controls */
     .preview{
       margin-top:12px;
       padding:14px;
@@ -120,32 +119,27 @@
 
   <script>
     (function () {
-      // short, distinct variable names (no repeated common names)
-      const x = document.getElementById('x');    // input
-      const pv = document.getElementById('pv');  // preview area
-      const c = document.getElementById('c');    // controls container
-      const b1 = document.getElementById('b1');  // style button
-      const b2 = document.getElementById('b2');  // color button
-      const b3 = document.getElementById('b3');  // font-family button
+      const x = document.getElementById('x');
+      const pv = document.getElementById('pv');
+      const c = document.getElementById('c');
+      const b1 = document.getElementById('b1');
+      const b2 = document.getElementById('b2');
+      const b3 = document.getElementById('b3');
 
-      // option lists (max 5 fonts)
-      const st = ['normal','italic','oblique']; // font-style options
-      const co = ['#e6eef8','#ffd166','#7ee787','#a78bfa','#ff7b7b']; // color palette
+      const st = ['normal','italic','oblique'];
+      const co = ['#e6eef8','#ffd166','#7ee787','#a78bfa','#ff7b7b'];
       const ff = ['Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial',
                   '"Georgia", serif',
                   '"Courier New", Courier, monospace',
                   '"Segoe UI Black", "Helvetica Neue", Arial, sans-serif',
-                  '"Comic Sans MS", "Comic Sans", cursive']; // up to 5
+                  '"Comic Sans MS", "Comic Sans", cursive'];
 
-      // indexes
       let iS = 0, iC = 0, iF = 0;
 
-      // helper -> update preview contents + reveal controls when non-empty
       function upd(v){
         const t = v.trim();
         if(t){
           pv.textContent = t;
-          // reveal controls once user typed anything
           c.classList.remove('hidden');
           c.setAttribute('aria-hidden','false');
         } else {
@@ -155,17 +149,14 @@
         }
       }
 
-      // cycle style
       function cycleStyle(){
         iS = (iS + 1) % st.length;
         pv.style.fontStyle = st[iS];
         b1.textContent = `Style: ${st[iS]}`;
         b1.setAttribute('aria-pressed','true');
-        // small visual feedback: toggle back quickly
         setTimeout(()=>b1.setAttribute('aria-pressed','false'),220);
       }
 
-      // cycle color
       function cycleColor(){
         iC = (iC + 1) % co.length;
         pv.style.color = co[iC];
@@ -174,7 +165,6 @@
         setTimeout(()=>b2.setAttribute('aria-pressed','false'),220);
       }
 
-      // cycle font family
       function cycleFont(){
         iF = (iF + 1) % ff.length;
         pv.style.fontFamily = ff[iF];
@@ -183,15 +173,8 @@
         setTimeout(()=>b3.setAttribute('aria-pressed','false'),220);
       }
 
-      // wire events: typing shows controls as soon as a non-empty value is present
       x.addEventListener('input', function (ev){
         upd(ev.target.value);
-      });
-
-      // Enter or Apply button should set the preview text explicitly (keeps behavior)
-      s.addEventListener('click', function (){
-        upd(x.value);
-        x.focus();
       });
 
       x.addEventListener('keydown', function(ev){
@@ -201,16 +184,13 @@
         }
       });
 
-      // button handlers
       b1.addEventListener('click', cycleStyle);
       b2.addEventListener('click', cycleColor);
       b3.addEventListener('click', cycleFont);
 
-      // initialize preview colors and font to defaults
       pv.style.color = co[0];
       pv.style.fontFamily = ff[0];
 
-      // small accessibility: when page loads, focus input
       window.addEventListener('load', ()=> x.focus());
     })();
   </script>
