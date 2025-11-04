@@ -1,43 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Title</title>
-    <style>
-        
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Interactive Text Formatter</title>
+  <style>
+    /* Body styles requested */
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#1e293b;
+      --text:#e6eef8;
+      --muted:#9fb0c9;
+    }
+    html,body{height:100%;margin:0;padding:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+    body{
+      background: linear-gradient(180deg,var(--bg),#071027 70%);
+      color:var(--text);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+    }
+
+    main{
+      width:min(760px,96%);
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);
+      border-radius:12px;
+      padding:24px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+    }
+
+    header{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+    header h1{font-size:1.15rem;margin:0;color:var(--text)}
+    header p{margin:0;color:var(--muted);font-size:0.9rem}
+
+    form{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-bottom:12px;
+      flex-wrap:wrap;
+    }
+
+    input[type="text"]{
+      flex:1 1 320px;
+      min-width:160px;
+      padding:10px 14px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,0.06);
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+      color:var(--text);
+      font-size:1rem;
+      outline:none;
+      transition:box-shadow .12s, transform .08s;
+    }
+    input[type="text"]:focus{box-shadow:0 6px 18px rgba(2,6,23,0.6); transform:translateY(-1px);}
+
+    .btn{
+      appearance:none;
+      border:1px solid rgba(255,255,255,0.06);
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
+      color:var(--text);
+      padding:10px 14px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+      font-size:0.95rem;
+    }
+    .btn:active{transform:translateY(1px)}
+
+    /* area that shows text and the controls */
+    .preview{
+      margin-top:12px;
+      padding:14px;
+      border-radius:8px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+      border:1px dashed rgba(255,255,255,0.03);
+      min-height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      color:var(--text);
+    }
+
+    .controls{
+      display:flex;
+      gap:8px;
+      margin-top:12px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+
+    .hidden{display:none}
+    .small{font-size:0.95rem}
+  </style>
 </head>
 <body>
-    <main>
-    <form id="nameForm" onsubmit="return false;" aria-label="Name form">
-      <label for="nameInput">Your name:</label>
-      <input id="nameInput" name="name" type="text" placeholder="Enter your name" />
-      <button id="showNameButton" type="button">Show</button>
-    </form>
-    <p id="display" aria-live="polite"></p>
-    </main>
-    <script>
-        (function () {
-      const input = document.getElementById('nameInput');
-      const button = document.getElementById('showNameButton');
-      const display = document.getElementById('display');
+  <main>
+    <header>
+      <h1>Text Formatter</h1>
+      <p class="small">Type something and controls will appear to change style, color and font family</p>
+    </header>
 
-      function showName() {
-        const name = input.value.trim();
-        display.textContent = name ? `Hello, ${name}!` : '';
+    <form id="f" onsubmit="return false()" aria-label="Text input form">
+      <label for="x" class="hidden">Enter text</label>
+      <input id="x" name="txt" type="text" placeholder="Write anything here..." aria-label="Text input" />
+      <button id="s" class="btn" type="button" aria-hidden="true">Apply</button>
+    </form>
+
+    <div id="pv" class="preview" aria-live="polite" role="status">Nothing to preview — start typing above.</div>
+
+    <div id="c" class="controls hidden" aria-hidden="true">
+      <button id="b1" class="btn" type="button" aria-pressed="false">Style: normal</button>
+      <button id="b2" class="btn" type="button" aria-pressed="false">Color: #e6eef8</button>
+      <button id="b3" class="btn" type="button" aria-pressed="false">Font: Inter</button>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      // short, distinct variable names (no repeated common names)
+      const x = document.getElementById('x');    // input
+      const s = document.getElementById('s');    // apply button (kept though not required)
+      const pv = document.getElementById('pv');  // preview area
+      const c = document.getElementById('c');    // controls container
+      const b1 = document.getElementById('b1');  // style button
+      const b2 = document.getElementById('b2');  // color button
+      const b3 = document.getElementById('b3');  // font-family button
+
+      // option lists (max 5 fonts)
+      const st = ['normal','italic','oblique']; // font-style options
+      const co = ['#e6eef8','#ffd166','#7ee787','#a78bfa','#ff7b7b']; // color palette
+      const ff = ['Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial',
+                  '"Georgia", serif',
+                  '"Courier New", Courier, monospace',
+                  '"Segoe UI Black", "Helvetica Neue", Arial, sans-serif',
+                  '"Comic Sans MS", "Comic Sans", cursive']; // up to 5
+
+      // indexes
+      let iS = 0, iC = 0, iF = 0;
+
+      // helper -> update preview contents + reveal controls when non-empty
+      function upd(v){
+        const t = v.trim();
+        if(t){
+          pv.textContent = t;
+          // reveal controls once user typed anything
+          c.classList.remove('hidden');
+          c.setAttribute('aria-hidden','false');
+        } else {
+          pv.textContent = 'Nothing to preview — start typing above.';
+          c.classList.add('hidden');
+          c.setAttribute('aria-hidden','true');
+        }
       }
 
-      button.addEventListener('click', showName);
+      // cycle style
+      function cycleStyle(){
+        iS = (iS + 1) % st.length;
+        pv.style.fontStyle = st[iS];
+        b1.textContent = `Style: ${st[iS]}`;
+        b1.setAttribute('aria-pressed','true');
+        // small visual feedback: toggle back quickly
+        setTimeout(()=>b1.setAttribute('aria-pressed','false'),220);
+      }
 
-      // Allow Enter key in the input to trigger the same action
-      input.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          showName();
+      // cycle color
+      function cycleColor(){
+        iC = (iC + 1) % co.length;
+        pv.style.color = co[iC];
+        b2.textContent = `Color: ${co[iC]}`;
+        b2.setAttribute('aria-pressed','true');
+        setTimeout(()=>b2.setAttribute('aria-pressed','false'),220);
+      }
+
+      // cycle font family
+      function cycleFont(){
+        iF = (iF + 1) % ff.length;
+        pv.style.fontFamily = ff[iF];
+        b3.textContent = `Font: ${ff[iF].split(',')[0].replace(/"/g,'')}`;
+        b3.setAttribute('aria-pressed','true');
+        setTimeout(()=>b3.setAttribute('aria-pressed','false'),220);
+      }
+
+      // wire events: typing shows controls as soon as a non-empty value is present
+      x.addEventListener('input', function (ev){
+        upd(ev.target.value);
+      });
+
+      // Enter or Apply button should set the preview text explicitly (keeps behavior)
+      s.addEventListener('click', function (){
+        upd(x.value);
+        x.focus();
+      });
+
+      x.addEventListener('keydown', function(ev){
+        if(ev.key === 'Enter'){
+          ev.preventDefault();
+          upd(x.value);
         }
       });
+
+      // button handlers
+      b1.addEventListener('click', cycleStyle);
+      b2.addEventListener('click', cycleColor);
+      b3.addEventListener('click', cycleFont);
+
+      // initialize preview colors and font to defaults
+      pv.style.color = co[0];
+      pv.style.fontFamily = ff[0];
+
+      // small accessibility: when page loads, focus input
+      window.addEventListener('load', ()=> x.focus());
     })();
-    </script>
+  </script>
 </body>
 </html>
