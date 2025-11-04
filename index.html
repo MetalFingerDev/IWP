@@ -18,7 +18,26 @@
     <p id="display" aria-live="polite"></p>
     </main>
     <script>
-        
+        (function () {
+      const input = document.getElementById('nameInput');
+      const button = document.getElementById('showNameButton');
+      const display = document.getElementById('display');
+
+      function showName() {
+        const name = input.value.trim();
+        display.textContent = name ? `Hello, ${name}!` : '';
+      }
+
+      button.addEventListener('click', showName);
+
+      // Allow Enter key in the input to trigger the same action
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          showName();
+        }
+      });
+    })();
     </script>
 </body>
 </html>
