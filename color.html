@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Interactive Text Formatter</title>
   <style>
-    /* Body styles requested */
     :root{
       --bg:#0f1724;
       --card:#0b1220;
@@ -108,7 +107,6 @@
     <form id="f" onsubmit="return false()" aria-label="Text input form">
       <label for="x" class="hidden">Enter text</label>
       <input id="x" name="txt" type="text" placeholder="Write anything here..." aria-label="Text input" />
-      <button id="s" class="btn" type="button" aria-hidden="true">Apply</button>
     </form>
 
     <div id="pv" class="preview" aria-live="polite" role="status">Nothing to preview — start typing above.</div>
@@ -124,7 +122,6 @@
     (function () {
       // short, distinct variable names (no repeated common names)
       const x = document.getElementById('x');    // input
-      const s = document.getElementById('s');    // apply button (kept though not required)
       const pv = document.getElementById('pv');  // preview area
       const c = document.getElementById('c');    // controls container
       const b1 = document.getElementById('b1');  // style button
