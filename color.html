@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Title</title>
+    <style>
+        
+    </style>
+</head>
+<body>
+    <main>
+    <form id="nameForm" onsubmit="return false;" aria-label="Name form">
+      <label for="nameInput">Your name:</label>
+      <input id="nameInput" name="name" type="text" placeholder="Enter your name" />
+      <button id="showNameButton" type="button">Show</button>
+    </form>
+    <p id="display" aria-live="polite"></p>
+    </main>
+    <script>
+        (function () {
+      const input = document.getElementById('nameInput');
+      const button = document.getElementById('showNameButton');
+      const display = document.getElementById('display');
+
+      function showName() {
+        const name = input.value.trim();
+        display.textContent = name ? `Hello, ${name}!` : '';
+      }
+
+      button.addEventListener('click', showName);
+
+      // Allow Enter key in the input to trigger the same action
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          showName();
+        }
+      });
+    })();
+    </script>
+</body>
+</html>
