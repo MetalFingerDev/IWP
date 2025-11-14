@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <t-header></t-header>
+    <main>
+      <h2>Video Playback</h2>
+      <section
+        style="
+          margin-top: 16px;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          align-items: flex-start;
+        "
+      >
+        <a
+          href="https://youtu.be/-uyI0TjhXdk?si=Nam6B96kbCWAFe9X"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="youtube-link"
+          >Open on YouTube</a
+        >
+
+        <div class="video-container">
+          <iframe
+            src="https://www.youtube.com/embed/-uyI0TjhXdk?si=B67-h5zA_BDGKShw"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </div>
+
+        <p class="small" style="width: 100%; margin-top: 8px">
+          If the video doesn't play here, use the "Open on YouTube" link above.
+        </p>
+      </section>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,138 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registration Form</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
-        }
-        main {
-            max-width: 500px;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        form div {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="date"],
-        select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #5cb85c;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #4cae4c;
-        }
-        #display-data {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            background-color: #e9e9e9;
-            border-radius: 4px;
-        }
-    </style>
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <t-header></t-header>
     <main>
-    <h2>User Registration</h2>
-    <form id="registrationForm" onsubmit="event.preventDefault(); displayLatestData();" aria-label="User registration form">
-      <div>
-        <label for="fullName">Full Name:</label>
-        <input id="fullName" name="fullName" type="text" placeholder="Enter your full name"/>
-      </div>
-      <div>
-        <label for="email">Email:</label>
-        <input id="email" name="email" type="email" placeholder="Enter your email"/>
-      </div>
-      <div>
-        <label for="phone">Phone Number:</label>
-        <input id="phone" name="phone" type="tel" placeholder="e.g., 123-456-7890"/>
-      </div>
-      <div>
-        <label for="dob">Date of Birth:</label>
-        <input id="dob" name="dob" type="date"/>
-      </div>
-      <div>
-        <label for="gender">Gender:</label>
-        <select id="gender" name="gender">
+      <h2>User Registration</h2>
+      <form
+        id="registrationForm"
+        onsubmit="event.preventDefault(); displayLatestData();"
+        aria-label="User registration form"
+      >
+        <div>
+          <label for="fullName">Full Name:</label>
+          <input
+            id="fullName"
+            name="fullName"
+            type="text"
+            placeholder="Enter your full name"
+          />
+        </div>
+        <div>
+          <label for="email">Email:</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="Enter your email"
+          />
+        </div>
+        <div>
+          <label for="phone">Phone Number:</label>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            placeholder="e.g., 123-456-7890"
+          />
+        </div>
+        <div>
+          <label for="dob">Date of Birth:</label>
+          <input id="dob" name="dob" type="date" />
+        </div>
+        <div>
+          <label for="gender">Gender:</label>
+          <select id="gender" name="gender">
             <option value="">Select Gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
             <option value="Other">Other</option>
-        </select>
-      </div>
-      <div>
-        <label for="address">Address (City):</label>
-        <input id="address" name="address" type="text" placeholder="Enter your city"/>
-      </div>
-      <div>
-        <label for="occupation">Occupation:</label>
-        <input id="occupation" name="occupation" type="text" placeholder="Enter your occupation"/>
-      </div>
-      <button type="submit">Register & Display</button>
-    </form>
-    
-    <h3>Latest Submitted Data:</h3>
-    <p id="display-data" aria-live="polite">No data submitted yet.</p>
+          </select>
+        </div>
+        <div>
+          <label for="address">Address (City):</label>
+          <input
+            id="address"
+            name="address"
+            type="text"
+            placeholder="Enter your city"
+          />
+        </div>
+        <div>
+          <label for="occupation">Occupation:</label>
+          <input
+            id="occupation"
+            name="occupation"
+            type="text"
+            placeholder="Enter your occupation"
+          />
+        </div>
+        <button type="submit">Register & Display</button>
+      </form>
+
+      <h3>Latest Submitted Data:</h3>
+      <p id="display-data" aria-live="polite">No data submitted yet.</p>
     </main>
-    <script>
-        function displayLatestData() {
-            const form = document.getElementById('registrationForm');
-            const display = document.getElementById('display-data');
-            const formData = new FormData(form);
-            const data = {};
-            let allFieldsEmpty = true;
-
-            for (const [key, value] of formData.entries()) {
-                data[key] = value.trim();
-                if (data[key] !== '') {
-                    allFieldsEmpty = false;
-                }
-            }
-
-            if (!allFieldsEmpty) {
-                let displayHTML = '';
-                // Only display fields that have a value
-                if (data.fullName) displayHTML += '<strong>Full Name:</strong> ' + data.fullName + '<br>';
-                if (data.email) displayHTML += '<strong>Email:</strong> ' + data.email + '<br>';
-                if (data.phone) displayHTML += '<strong>Phone:</strong> ' + data.phone + '<br>';
-                if (data.dob) displayHTML += '<strong>DOB:</strong> ' + data.dob + '<br>';
-                if (data.gender) displayHTML += '<strong>Gender:</strong> ' + data.gender + '<br>';
-                if (data.address) displayHTML += '<strong>Address (City):</strong> ' + data.address + '<br>';
-                if (data.occupation) displayHTML += '<strong>Occupation:</strong> ' + data.occupation;
-
-                display.innerHTML = displayHTML;
-            } else {
-                // Display 'Nothing submitted' if all fields are empty
-                display.textContent = 'Nothing submitted.';
-            }
-        }
-    </script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

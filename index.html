@@ -1,43 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Title</title>
-    <style>
-        
-    </style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <t-header></t-header>
     <main>
-    <form id="nameForm" onsubmit="return false;" aria-label="Name form">
-      <label for="nameInput">Your name:</label>
-      <input id="nameInput" name="name" type="text" placeholder="Enter your name" />
-      <button id="showNameButton" type="button">Show</button>
-    </form>
-    <p id="display" aria-live="polite"></p>
+      <h1>IWP-0048</h1>
+      <p>
+        A repo with a collection of interactive web applications built with
+        vanilla HTML, CSS, and JavaScript
+      </p>
+
+      <section class="projects">
+        <div class="project-card">
+          <h3>Lists</h3>
+          <p>An example for a list in HTML.</p>
+          <a href="app.html" class="btn">View Project</a>
+        </div>
+
+        <div class="project-card">
+          <h3>Color</h3>
+          <p>An example of color manipulation using native CSS.</p>
+          <a href="color.html" class="btn">View Project</a>
+        </div>
+
+        <div class="project-card">
+          <h3>Drawing Canvas</h3>
+          <p>A example for the usecase of "canvas" tag</p>
+          <a href="draw.html" class="btn">View Project</a>
+        </div>
+
+        <div class="project-card">
+          <h3>Drawing Canvas 2</h3>
+          <p>Some more examples</p>
+          <a href="draw2.html" class="btn">View Project</a>
+        </div>
+
+        <div class="project-card">
+          <h3>Forum</h3>
+          <p>A forum interface with JavaScript integration.</p>
+          <a href="forum.html" class="btn">View Project</a>
+        </div>
+
+        <div class="project-card">
+          <h3>Video Player</h3>
+          <p>A custom video player application.</p>
+          <a href="video.html" class="btn">View Project</a>
+        </div>
+      </section>
     </main>
-    <script>
-        (function () {
-      const input = document.getElementById('nameInput');
-      const button = document.getElementById('showNameButton');
-      const display = document.getElementById('display');
-
-      function showName() {
-        const name = input.value.trim();
-        display.textContent = name ? `Hello, ${name}!` : '';
-      }
-
-      button.addEventListener('click', showName);
-
-      // Allow Enter key in the input to trigger the same action
-      input.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          showName();
-        }
-      });
-    })();
-    </script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
